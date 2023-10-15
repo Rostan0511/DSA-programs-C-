@@ -1,81 +1,96 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-#define MAX_SIZE 100
-
-// Structure to represent the stack
-struct Stack {
-    int data[MAX_SIZE];
+#include<stdio.h>
+#include<stdlib.h>
+struct stack{
+    int size;
     int top;
+    int *S;
 };
-
-// Function to initialize an empty stack
-void initialize(struct Stack *stack) {
-    stack->top = -1;
+void create(struct stack *st)
+{
+    printf("Enter size of stack:\n");
+    scanf("%d",&st->size);
+    st->top=-1;
+    st->S=(int *)malloc(st->size*sizeof(int));
 }
-
-// Function to check if the stack is empty
-int isEmpty(struct Stack *stack) {
-    return (stack->top == -1);
-}
-
-// Function to check if the stack is full
-int isFull(struct Stack *stack) {
-    return (stack->top == MAX_SIZE - 1);
-}
-
-// Function to push an element onto the stack
-void push(struct Stack *stack, int value) {
-    if (isFull(stack)) {
-        printf("Stack is full. Cannot push.\n");
-    } else {
-        stack->top++;
-        stack->data[stack->top] = value;
-        printf("%d pushed onto the stack.\n", value);
+void push(struct stack *st,int x)
+{
+    if(st->top==st->size-1)
+        printf("STACK OVERFLOW\n");
+    else
+    {
+        st->top++;
+        st->S[st->top]=x;
     }
 }
-
-// Function to pop an element from the stack
-int pop(struct Stack *stack) {
-    if (isEmpty(stack)) {
-        printf("Stack is empty. Cannot pop.\n");
-        return -1; // Return a sentinel value to indicate an error
-    } else {
-        int value = stack->data[stack->top];
-        stack->top--;
-        return value;
+int pop(struct stack *st)
+{
+    int x=-1;
+    if(st->top==-1)
+        printf("STACK UNDERFLOW\n");
+    else
+    {
+      x=st->S[st->top];
+      st->top--;
     }
+    return x;
 }
-
-// Function to display the elements of the stack
-void display(struct Stack *stack) {
-    if (isEmpty(stack)) {
-        printf("Stack is empty.\n");
-    } else {
-        printf("Stack elements: ");
-        for (int i = 0; i <= stack->top; i++) {
-            printf("%d ", stack->data[i]);
-        }
+int peek(struct stack st,int index)
+{   
+    int x=-1;
+    if((st.top-index+1) < 0)
+        printf("Invalid Index\n");
+    else
+    {
+        x=st.S[st.top-index+1];
+    }
+    return x;
+}
+int StackTop(struct stack st)
+{
+    if(st.top==-1)
+        return -1;
+    else
+        return st.S[st.top];
+}
+int isEmpty(struct stack st)
+{
+    if(st.top==-1)
+        return 1;
+    else
+        return 0;
+}
+int isFull(struct stack st)
+{
+    if(st.top==st.size-1)
+        return 1;
+    else
+        return 0;
+}
+void Display(struct stack st)
+{   if(!isEmpty(st))
+    {   
+        int i;
+        printf("Element in stack:\n");
+        for(i=st.top;i>=0;i--)
+        printf("%d ",st.S[i]);
         printf("\n");
     }
 }
-
-int main() {
-    struct Stack stack;
-    initialize(&stack);
-
-    push(&stack, 10);
-    push(&stack, 20);
-    push(&stack, 30);
-
-    display(&stack);
-
-    int popped = pop(&stack);
-    if (popped != -1) {
-        printf("Popped element: %d\n", popped);
-    }
-
-    display(&stack);
-
+int main()
+{
+    struct stack st;
+    create(&st);
+    push(&st,10);
+    push(&st,20);
+    push(&st,30);
+    push(&st,40);
+    Display(st);
+    printf("Pop Result=%d\n",pop(&st));
+    Display(st);
+    printf("Peek Result=%d\n",peek(st,2));
+    printf("Stack Top =%d\n",StackTop(st));
+    printf("Stack Empty?=%d\n",isEmpty(st));
+    printf("Stack Full?=%d\n",isFull(st));
     return 0;
+    
 }
