@@ -22,5 +22,49 @@ double evaluateExpression(const char *expression) {
 
         while (sscanf(expression + n, " %c %lf%n", &operator, &operand, &n) == 2) {
             switch (operator) {
-                case
+                case '+':
+                    result += operand;
+                    break;
+                case '-':
+                    result -= operand;
+                    break;
+                case '*':
+                    result *= operand;
+                    break;
+                case '/':
+                    if (operand == 0.0) {
+                        fprintf(stderr, "Division by zero\n");
+                        exit(1);
+                    }
+                    result /= operand;
+                    break;
+                default:
+                    fprintf(stderr, "Invalid operator: %c\n", operator);
+                    exit(1);
+            }
+        }
+    }
+    return result;
+}
+
+int main() {
+    char expression[100];
+
+    printf("Enter an expression: ");
+    if (fgets(expression, sizeof(expression), stdin) == NULL) {
+        fprintf(stderr, "Error reading input\n");
+        return 1;
+    }
+
+    // Remove newline character if present
+    char *newline = strchr(expression, '\n');
+    if (newline != NULL) {
+        *newline = '\0';
+    }
+
+    double result = evaluateExpression(expression);
+    printf("Result: %lf\n", result);
+
+    return 0;
+}
 
