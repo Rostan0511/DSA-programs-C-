@@ -26,7 +26,7 @@ int main()
     int A[]={7,3,5,6,8,4,9,11,18,13},n=10,i;
     Bubble(A,n);
     printf("\nElements are:\n");
-    for(i=0;i<n-1;i++)
+    for(i=0;i<n;i++)
     {
         printf("%d ",A[i]);
     }
