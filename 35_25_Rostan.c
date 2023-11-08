@@ -50,17 +50,21 @@ void Display(struct Array arr)
 
 int main()
 {
-    struct Array arr={{2,3,6,9,18,21,24,32,35},10,9};
-    if(isSorted(arr))
+    struct Array arr = {{1,33,5,7,13,15,16,18,21,23},10,10};
+    if(IsSorted(arr))
     {
-        printf("Element found at index:%d\n",BinarySearch(arr,21));
+    printf("Binary Search Implementation is availabe\n");
+    int x =BinarySearch(arr,7);
+    if(x!=(-1))
+    printf("Element found at index %d\n",x);
+    else
+    printf("Element not found\n");
     }
     else
-    {
-        printf("Elements are not sorted");
-    }
+    printf("Array not sorted\n");
+    
     Display(arr);
-    return 0;
+
 }
 
 
