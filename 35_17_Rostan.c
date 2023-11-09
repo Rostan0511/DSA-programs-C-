@@ -1,98 +1,89 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-// Define the structure for a node in the linked list
-struct Node {
+#include<stdio.h>
+#include<stdlib.h>
+struct Node
+{
     int data;
-    struct Node* next;
-};
+    struct Node *next;
+}*front=NULL,*rear=NULL;
 
-// Function to create a new node with a given data value
-struct Node* createNode(int data) {
-    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
-    if (newNode == NULL) {
-        printf("Memory allocation failed.\n");
-        exit(1);
-    }
-    newNode->data = data;
-    newNode->next = NULL;
-    return newNode;
-}
-
-// Structure to represent the queue
-struct Queue {
-    struct Node* front;
-    struct Node* rear;
-};
-
-// Function to initialize an empty queue
-void initialize(struct Queue* queue) {
-    queue->front = NULL;
-    queue->rear = NULL;
-}
-
-// Function to check if the queue is empty
-int isEmpty(struct Queue* queue) {
-    return (queue->front == NULL);
-}
-
-// Function to enqueue (insert) an element into the queue
-void enqueue(struct Queue* queue, int data) {
-    struct Node* newNode = createNode(data);
-    if (isEmpty(queue)) {
-        queue->front = queue->rear = newNode;
-    } else {
-        queue->rear->next = newNode;
-        queue->rear = newNode;
-    }
-    printf("%d enqueued into the queue.\n", data);
-}
-
-// Function to dequeue (remove) an element from the queue
-int dequeue(struct Queue* queue) {
-    if (isEmpty(queue)) {
-        printf("Queue is empty. Cannot dequeue.\n");
-        return -1; // Return a sentinel value to indicate an error
-    } else {
-        struct Node* temp = queue->front;
-        int data = temp->data;
-        queue->front = temp->next;
-        free(temp);
-        return data;
+void enqueue(int x)
+{
+    struct Node *t;
+    t=(struct Node*)malloc(sizeof(struct Node));
+    if(t==NULL)
+    printf("Queue is Full\n");
+    else
+    {
+        t->data = x;
+        t->next=NULL;
+        if(front == NULL)
+        {
+            front=rear=t;
+        }
+        else
+        {
+            rear->next=t;
+            rear=t;
+        }
     }
 }
 
-// Function to display the elements of the queue
-void display(struct Queue* queue) {
-    struct Node* current = queue->front;
-    if (current == NULL) {
-        printf("Queue is empty.\n");
-        return;
+int dequeue()
+{
+    int x=-1;
+    struct Node *t;
+    if(front == NULL)
+    printf("Queue empty\n");
+    else
+    {
+        t=front;
+        x=front->data;
+        front=front->next;
+        free(t);
     }
-    printf("Queue elements: ");
-    while (current != NULL) {
-        printf("%d ", current->data);
-        current = current->next;
+    return x;
+}
+
+void Display()
+{
+    struct Node *p;
+    while (p)
+    {
+     printf("%d ",p->data);
+     p=p->next;
     }
     printf("\n");
 }
+int SearchElement(int key)
+{
+    struct Node *p = front;
+    int pos = 1;
 
-int main() {
-    struct Queue queue;
-    initialize(&queue);
-
-    enqueue(&queue, 10);
-    enqueue(&queue, 20);
-    enqueue(&queue, 30);
-
-    display(&queue);
-
-    int dequeued = dequeue(&queue);
-    if (dequeued != -1) {
-        printf("Dequeued element: %d\n", dequeued);
+    while (p)
+    {
+        if (p->data == key)
+            return pos;
+        p = p->next;
+        pos++;
     }
 
-    display(&queue);
+    return -1; // Element not found
+}
+int main()
+{
+    enqueue(10);
+    enqueue(20);
+    enqueue(30);
+    enqueue(40);
+       Display();
+       printf("%d ",dequeue());
+       //printf("Element found at position %d",SearchElement(5));
+       int searchKey = 20;
+    int position = SearchElement(searchKey);
+    if (position != -1)
+        printf("Element %d found at position %d\n", searchKey, position);
+    else
+        printf("Element %d not found in the queue\n", searchKey);
 
-    return 0;
+       return 0;
 }
